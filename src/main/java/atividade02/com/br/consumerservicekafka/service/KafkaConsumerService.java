@@ -39,6 +39,10 @@ public class KafkaConsumerService {
         lastMessage = message;
     }
 
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
 //    @KafkaListener(topics = "school-topic", containerFactory = "kafkaListenerContainerFactory")
 //    public void consumeMessage(String message) {
 //        processMessage(message);
