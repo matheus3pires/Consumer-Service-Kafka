@@ -21,7 +21,7 @@ public class KafkaConfigConsumer {
 
     @Bean
     public KafkaConsumer<String, String> kafkaConsumer() {
-        String topicName = "school-kafka"; // nome do tópico
+        String topicName = "school-kafka";
 
         Properties propsConsumer = new Properties();
         propsConsumer.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");

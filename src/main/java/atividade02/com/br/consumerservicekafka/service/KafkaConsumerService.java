@@ -1,10 +1,12 @@
 package atividade02.com.br.consumerservicekafka.service;
 
+import lombok.Getter;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.Executors;
@@ -13,6 +15,8 @@ import java.util.concurrent.Executors;
 public class KafkaConsumerService {
 
     private final KafkaConsumer<String, String> consumer;
+    @Getter
+    private String lastMessage;
 
     @Autowired
     public KafkaConsumerService(KafkaConsumer<String, String> consumer) {
@@ -32,7 +36,7 @@ public class KafkaConsumerService {
     }
 
     private void processMessage(String message) {
-        System.out.println(message);
+        lastMessage = message;
     }
 
 //    @KafkaListener(topics = "school-topic", containerFactory = "kafkaListenerContainerFactory")
