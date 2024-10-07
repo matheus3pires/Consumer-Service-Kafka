@@ -30,56 +30,13 @@ public class KafkaConfigConsumer {
         propsConsumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         propsConsumer.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
+        //TODO _ PARTE NOVA - arrumar a parte de consumer.subscribe q aparenta ser errado -> group_ID_CONFIG - topic
+        propsConsumer.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "10");
+
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(propsConsumer);
         consumer.subscribe(Collections.singleton(topicName));
         return consumer;
     }
 
-//    @Bean
-//    public ConsumerFactory<String, String> consumerFactory() {
-//        Map<String, Object> props = new HashMap<>();
-//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-//        props.put(ConsumerConfig.GROUP_ID_CONFIG, "school-topic");
-//        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-//        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-//
-//        return new DefaultKafkaConsumerFactory<>(props);
-//    }
-//
-//    @Bean
-//    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
-//        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-//        factory.setConsumerFactory(consumerFactory());
-//        return factory;
-//    }
 
-//    /**
-//     * Método que cria o `ConsumerFactory`, responsável por configurar e instanciar consumidores Kafka.
-//     *
-//     * @return Um `ConsumerFactory` configurado para consumo.
-//     */
-//    @Bean
-//    public ConsumerFactory<String, String> consumerFactory() {
-//        Map<String, Object> props = new HashMap<>();
-//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-//        props.put(ConsumerConfig.GROUP_ID_CONFIG, "common-group");
-//        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-//        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-//        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "10"); // Recebe até 10 mensagens de cada vez
-//
-//        return new DefaultKafkaConsumerFactory<>(props);
-//    }
-//
-//    /**
-//     * Cria uma `ConcurrentKafkaListenerContainerFactory` configurada para processamento em lote.
-//     *
-//     * @return Uma `ConcurrentKafkaListenerContainerFactory` que suporta processamento em lote.
-//     */
-//    @Bean
-//    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
-//        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-//        factory.setConsumerFactory(consumerFactory());
-//        factory.setBatchListener(true); // Habilita o consumo em lote
-//        return factory;
-//    }
 }
