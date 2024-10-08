@@ -9,38 +9,39 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.Executors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class KafkaConsumerService {
 
-    private final KafkaConsumer<String, String> consumer;
-    @Getter
-    private String lastMessage;
-
     @Autowired
-    public KafkaConsumerService(KafkaConsumer<String, String> consumer) {
-        this.consumer = consumer;
-        startConsumer();
+    private static List<String> messages;
+
+    public KafkaConsumerService(List<String> messages) {
+        this.messages = messages;
     }
 
-    private void startConsumer() {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            while (true) {
-                ConsumerRecords<String, String> records = consumer.poll(100);
-                for (ConsumerRecord<String, String> record : records) {
-                    processMessage(record.value());
+    @KafkaListener(topics = "school-kafka",containerFactory = "kafkaListenerContainerFactory")
+    public void consumeBatch(List<String> messages) {
+        System.err.println("Recebido: " + messages);
+        processBatch(messages);
+    }
+
+    private void processBatch(List<String> mensagens) {
+        mensagens.forEach(
+                mensagem -> {
+                    System.err.println("Processando: " + mensagem);
+                    messages.add(mensagem);
                 }
-            }
-        });
+        );
     }
 
-    private void processMessage(String message) {
-        lastMessage = message;
+    public static Map<String, String> pegarLista(){
+        Map<String, String> notification = new HashMap<>();
+        messages.forEach(message -> notification.put("message", message));
+        messages.clear();
+        return notification;
     }
-
-    public String getLastMessage() {
-        return lastMessage;
-    }
-
 }
