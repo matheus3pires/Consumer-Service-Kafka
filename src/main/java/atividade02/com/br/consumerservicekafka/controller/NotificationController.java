@@ -19,10 +19,7 @@ public class NotificationController {
 
     @GetMapping("/api/notification")
     public ResponseEntity<Map<String, String>> getNotification() {
-        Map<String, String> notification = new HashMap<>();
-        notification.put("message", kafkaConsumerService.getLastMessage());
-        System.err.println(kafkaConsumerService.getLastMessage());
-        return ResponseEntity.ok(notification);
+        return ResponseEntity.ok(KafkaConsumerService.pegarLista());
     }
 }
 
